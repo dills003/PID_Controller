@@ -15,33 +15,30 @@ My original plan was to use 'Twiddle' to automatically find all of my PID values
  7. Adjust the potential changes based on how well the update worked
  8. Repeat from 3.
  
-I tried only tuning the P value, tunning all the parameters, adjusting tolerance levels, using curves, straight roads, adjusting speeds, and it was a struggle to get anywhere. I then decided to manually tune, and within 30 minutes, I was finished. I feel like I need to understand how to 'Twiddle' better, so I will revisit it later.
+I tried only tuning the P value, tunning all the parameters, adjusting tolerance levels, using curves, straight roads, adjusting speeds, and it was a struggle to get anywhere. I then decided to manually tune, and within 30 minutes, I was finished. I feel like I need to understand how to 'Twiddle' better, so I will revisit it later. My goal was to make it around the track at 30% throttle.
 
 My understanding of the PID parameraters are as follows:
  *'P' - The higher the 'P' the more responsive your plant is, but it comes the penalty of overshoot and oscillation
+ 
  *'I' - There to decrease Steady State error. The more of it the faster the response but comes with the penalty of overshoot and oscillation.
+ 
  *'D' - There to put the brakes on the overshooting and oscillation. There to stabilize. It comes with the penalty of stabilization if you use too much of it.
  
 Here is how my manual tunning went:
 
-| Layer         		|     Description	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Input         		| 32x32x1 grayscaled image   							| 
-| Convolution #1     	| 1x1 stride, outputs 28x28x6 	|
-| RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 14x14x6 				|
-| Convolution #2	    | 1x1 stride, outputs 10x10x16      									|
-| RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 5x5x16 				|
-| Flatten	      	| outputs 400x1 				|
-| Fully connected #1		| outputs 200x1        									|
-| Sigmoid					|												|
-| Fully connected #2	| outputs 43x1        									|
-| Softmax	w/ Cross Entropy w/Logits			|         									|
-| Loss Operation			|  Reduce Mean       									|
-| Optimizer			| Adam Optimizer       									|
-| Training Operation			|  Minimize       									|
- 
+| P      |    I  |  D    | Speed | Observation              |                                                     
+|:------:|:-----:|:-----:|:-----:|:-------------------------------------------------------------------:|
+10 |	0 |	0	|0.05	| CTE on straight was .019, this is the 'I' term adjustment, it will be small |
+10 |	0.1 |	0	| 0.05 |	Weaving out of control, too much 'I' |
+10 |	0.01	| 0	| 0.05 |	Weaving better, worse CTE |
+10 |	0.001	| 0	| 0.05 |	About the same performance as start |
+10 |	0.005 |	0 |	0.05 |	Feel okay about my 'I' term, going to speed up |
+10 |	0.005 |	0	| 0.1 |	Too large of corrections, but on road still, speed up and decrease 'P'|
+5 |	0.005 |	0	| 0.3 |	Woah, once it is out of shape, all bad, time for brakes |
+5	|0.005 |	10	| 0.3	| Still rough, 'P' is too high, too long to recover from monster overshoots, over corrects |
+1 |	0.005 |	10 |	0.3	|Almost made it around, too much overshoot |
+0.5 |	0.005 |	10	| 0.3	| Makes it all of the way around, pretty close to edge during corrections though |
+0.25 |	0.005	| 10 |	0.3 |	Makes it all of the way, little lethargic to respond, fine tuning could be done |
 
 
-
+My final values of P: 0.25 , I: 0.005 , and D: 10.0 could be fine tunned to make the driving experience more smooth, but this was as good as my wife's driving so I decided to stop here.
