@@ -1,12 +1,12 @@
 **PID Controller Reflection** 
 
-This is my reflection of the effect each of the PID components had in my implementation and how the final hyperparameters were chosen for Udacity's PID Controller Project. 67-220
+This is my reflection of the effect each of the PID components had in my implementation and how the final hyperparameters were chosen for Udacity's PID Controller Project.
 
 ---
 
 **How it went**
 
-My original plan was to use 'Twiddle' to automatically find all of my PID values. After implementing 'Twiddle' in the quiz, I thought it was one of the most amazing, easy-to-use tools that I have ever seen. Gone would be the days of PID guess and check. After about two days of trying to tune 'Twiddle', I gave up. I believe how I implemented or maybe my understanding of it is incorrect. My understandin of 'Twiddle' is the following:
+My original plan was to use 'Twiddle' to automatically find all of my PID values. After implementing 'Twiddle' in the quiz, I thought it was one of the most amazing, easy-to-use tools that I have ever seen. Gone would be the days of PID guess and check. After about two days of trying to tune 'Twiddle', I gave up. This can be seen on lines 67-200 or the main.cpp file. I believe how I implemented or maybe my understanding of it is incorrect. My understandin of 'Twiddle' is the following:
  1. Initialize the parameters
  2. Initialize potential changes to the parameters
  3. Calculate some error
